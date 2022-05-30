@@ -48,11 +48,11 @@ class EcgDataset(Dataset):
 
         # stack condition
         # todo resize ht dim
-        sin_wave_condition = torch.ones(self.samples) * 3
-        quadratic_condition = torch.ones(self.samples) * 2
+        sin_wave_condition = torch.ones(self.samples) * 2
+        quadratic_condition = torch.ones(self.samples) * 1
         sin_wave_condition = sin_wave_condition.view(-1, 1)
         quadratic_condition = quadratic_condition.view(-1, 1)
-        linear_condition = torch.ones(self.samples).view(-1, 1)
+        linear_condition = torch.zeros(self.samples).view(-1, 1)
         self.condition = torch.cat((quadratic_condition, linear_condition, sin_wave_condition), 0)
 
     # 返回数据集大小

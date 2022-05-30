@@ -39,7 +39,7 @@ print(opt)
 cuda = True if torch.cuda.is_available() else False
 
 # Initialize generator and discriminator
-generator = Generator(1, opt.ecg_dim)
+generator = Generator(3, opt.ecg_dim)
 discriminator = Discriminator(opt.ecg_dim)
 
 
@@ -55,7 +55,8 @@ dataloader = DataLoader(dataset, batch_size=opt.batch_size, shuffle=True)
 optimizer_G = torch.optim.RMSprop(generator.parameters(), lr=opt.lr)
 optimizer_D = torch.optim.RMSprop(discriminator.parameters(), lr=opt.lr)
 
-Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+FloatTensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+LongTensor = torch.cuda.LongTensor if cuda else torch.LongTensor
 
 # ----------
 #  Training
@@ -67,7 +68,8 @@ for epoch in range(opt.n_epochs):
     for i, (ecgs, hts) in enumerate(dataloader):
 
         # Configure input
-        real_ecgs = Variable(ecgs.type(Tensor))
+        real_ecgs = Variable(ecgs.type(FloatTensor))
+        hts = Variable(hts.type(LongTensor))
 
         # ---------------------
         #  Train Discriminator
@@ -76,7 +78,6 @@ for epoch in range(opt.n_epochs):
         optimizer_D.zero_grad()
 
         # Sample noise as generator input
-        hts = Variable(hts.type(Tensor))
 
         # Generate a batch of images
         fake_ecgs = generator(hts).detach()
@@ -111,7 +112,9 @@ for epoch in range(opt.n_epochs):
                 "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
                 % (epoch, opt.n_epochs, batches_done % len(dataloader), len(dataloader), loss_D.item(), loss_G.item())
             )
-        # if batches_done % opt.sample_interval == 0:
+        if batches_done % opt.sample_interval == 0:
+            plt.plot(fake_ecgs.cpu()[0].numpy()[0])
+            plt.show()
             # save_image(gen_imgs.data[:25], "images/%d.png" % batches_done, nrow=5, normalize=True)
         batches_done += 1
 

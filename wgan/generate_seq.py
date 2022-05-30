@@ -7,7 +7,8 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 cuda = True if torch.cuda.is_available() else False
 
-Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+FloatTensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+LongTensor = torch.cuda.LongTensor if cuda else torch.LongTensor
 
 G = torch.load('./G.pth')
 
@@ -23,12 +24,14 @@ BATCH_SIZE = 10
 # plt.plot(Y)
 # plt.show()
 
-condition_quadratic = torch.ones(BATCH_SIZE)*3
+condition_quadratic = torch.ones(BATCH_SIZE)*0
+
 condition_quadratic = condition_quadratic.view(-1, 1)
 if cuda:
-    condition_quadratic = condition_quadratic.type(Tensor)
+    condition_quadratic = condition_quadratic.type(LongTensor)
 
 quadratic = G(condition_quadratic)
-Y = quadratic.data.cpu().numpy()[1]
+Y = quadratic.data.cpu().numpy()[1][0]
 plt.plot(Y)
 plt.show()
+
