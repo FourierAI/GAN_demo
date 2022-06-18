@@ -1,2 +1,9 @@
 /cgan/log/
 /gan/log/
+*.xml
+*.csv
+*.pyc
+*.xml
+*.pth
+*.pyc
+*.data

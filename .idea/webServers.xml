@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f1d0d613-e40b-408b-aa4e-e110457e48f2" name="remote">
+        <fileTransfer rootFolder="/home/rody/文档/gan" accessType="SFTP" host="t2865g9455.zicp.vip" port="47764" sshConfigId="535a586d-f0e5-4401-a0b0-6c7c7d4d9a90" sshConfig="rody@t2865g9455.zicp.vip:47764 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
